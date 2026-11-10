@@ -103,9 +103,16 @@ flutter test
 flutter test integration_test/home_flow_test.dart -d <device-id>
 ```
 
-Current coverage includes auth validator examples, Hive/session behavior, product DTO mapping, Home tab selection, the Explore product-card widget, and one integration flow. The Explore product-card widget is retained but the Home Explore section now displays ShopBloc cards; that current shop-card view does not yet have a dedicated widget test. At the time of this README update, all 6 unit/widget tests passed and the integration test passed on macOS.
+Unit and widget tests cover phone, OTP, name, and birth-date screen validation feedback; auth validator boundaries; auth use cases and profile persistence; Hive session behavior; product DTO mapping; reward-progress boundaries; Home tab selection; the Explore product-card action; and Product detail quantity/total/cart feedback. The Explore product-card widget remains covered, but Home currently shows ShopBloc cards in that section; the current shop-card widget does not yet have a dedicated test.
 
-The integration scenario currently verifies **Home → Shops**. The code test asks for **Register → Home → Product detail**. Login/registration validation widget coverage and a full unit-test matrix for every validator rule are also still needed.
+Integration tests cover **Home → Shops** and **Register → Home → Product detail** using seeded in-memory repositories, including the demo phone and OTP flow. The complete unit/widget suite (`flutter test`: 22 tests) and the registration-to-product integration test passed during this update on macOS. Run integration tests with:
+
+```sh
+flutter test integration_test/home_flow_test.dart -d <device-id>
+flutter test integration_test/registration_to_product_test.dart -d <device-id>
+```
+
+Broader validator edge-case coverage and a dedicated widget test for the current ShopBloc card remain useful additions.
 
 ## Analyze
 
@@ -139,8 +146,8 @@ The code test also requests a public Git repository and a 2–4 minute screen re
 
 ## Known gaps
 
-- The integration test does not yet cover the requested registration-to-product journey.
-- Login and registration widget validation tests and broader validator/use-case unit tests are missing.
+- The auth screens do not yet have dedicated login and registration validation widget tests.
+- Broader edge-case coverage for each validator rule is still needed.
 - Home loading currently uses progress indicators rather than skeletons. Product sections share one product-list error state.
 - Home does not show an offline banner or refresh remote catalog data; there is no configured back end.
 - Rewards currently receives default points/tier values instead of consistently reading the signed-in member profile. Product “New” state should also be mapped from its own data field.
